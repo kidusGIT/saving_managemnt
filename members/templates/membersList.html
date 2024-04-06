@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Member List</title>
+
+    <link rel="stylesheet" href="{% static 'css/member_list.css' %}" />
+    <link rel="stylesheet" href="{% static '/css/fontawesome/css/all.css' %}" />
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <p>Awach SACCO</p>
+        <div class="links">
+          <div class="link">
+            {% if request.user %}
+            <a href="{% url 'logout-employee' %}"> Logout </a>
+            {% else %}
+            <a href="{% url 'login-employee' %}"> Login </a>
+            {% endif %}
+          </div>
+        </div>
+      </header>
+
+      <div class="member-list-body">
+        <div class="search-container">
+          <h2>Members List</h2>
+
+          <div class="search-bar">
+            <input type="text" placeholder="Search" id="search-input" />
+            <button type="submit" id="search-btn">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="middle-div-container">
+          <a href="{% url 'create-member' %}" class="create-member">
+            Create Member
+          </a>
+          <a href="{% url 'accountant-report' %}" class="member-detail">
+            Reports
+          </a>
+        </div>
+
+        <div class="members-table">
+          <table class="members-list-table" id="members-list-table"></table>
+          <div class="noting-found-container" id="noting-found">
+            <div>No members found</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="{% static 'js/list.js' %}"></script>
+  </body>
+</html>

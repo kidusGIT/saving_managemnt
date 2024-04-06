@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Time Staps</title>
+</head>
+<body>
+    <h1> Time Stamp </h1>
+    <form action="" method="post" id="set-form"  >
+        {% csrf_token %}
+        <input type="datetime-local" name="start" id="date"> 
+        <input type="datetime-local" name="end" id="date"> 
+        <button type="submit" id="set-btn" > Set Dates </button>
+
+    </form>
+
+    <script src="{% static 'js/set_time.js' %}"></script>
+
+</body>
+</html>

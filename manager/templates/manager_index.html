@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static '/css/manager_style.css' %}" />
+    <title>Manager Page</title>
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <p>Awach SACCO</p>
+        <div class="links">
+          <div class="link">
+            {% if request.user %}
+            <a href="{% url 'logout-employee' %}"> Logout </a>
+            {% else %}
+            <a href="{% url 'login-employee' %}"> Login </a>
+            {% endif %}
+          </div>
+        </div>
+      </header>
+
+      <div class="member-list-body">
+        <div class="header-container">
+          <h2>Manager</h2>
+
+          <div class="balance-container">
+            <p>Saving Balance: <span> {{ saving_balance }} </span></p>
+            <p>Compulsory Balance: <span> {{ comulsory }} </span></p>
+          </div>
+        </div>
+
+        <div class="middel-container">
+          <div class="middel-buttons">
+            <button id="saving-btn">Saving Account Details</button>
+            <button id="compulsory-btn">Compulsory Account Details</button>
+          </div>
+
+          <p>Total Balance: <span> {{ total_balance }} </span></p>
+        </div>
+
+        <div id="other-saving-container">
+          <div class="members-table">
+            <a href="" class="member-detail"> Generate Report </a>
+            <table class="members-list-table">
+              <tr>
+                <th>Saving ID</th>
+                <th>Transaction ID</th>
+                <th>Saving Name</th>
+                <th>Deposit</th>
+                <th>Withdraw</th>
+                <th>Balance</th>
+                <th>Date</th>
+              </tr>
+              {% for saving in saving_transaction %}
+              <tr>
+                <td>{{ saving.account.id }}</td>
+                <td>{{ saving.id }}</td>
+                <td>Other Saving</td>
+                <td class="withdraw">-{{saving.withdraw}}</td>
+                <td class="deposit">+{{saving.deposit}}</td>
+                <td>{{saving.balance}}</td>
+                <td>{{saving.created_date}}</td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+
+        <!-- compulsory saving  -->
+
+        <div id="compulsory-saving-container">
+          <div class="members-table">
+            <a href="" class="member-detail"> Generate Report </a>
+            <table class="members-list-table">
+              <tr>
+                <th>Saving ID</th>
+                <th>Transaction ID</th>
+                <th>Saving Name</th>
+                <th>Deposit</th>
+                <th>Withdraw</th>
+                <th>Balance</th>
+                <th>Date</th>
+              </tr>
+
+              {% for saving in compulsory_transaction %}
+              <tr>
+                <td>{{ saving.account.id }}</td>
+                <td>{{ saving.id }}</td>
+                <td>Compulsory Saving</td>
+                <td class="withdraw">-{{saving.withdraw}}</td>
+                <td class="deposit">+{{saving.deposit}}</td>
+                <td>{{saving.balance}}</td>
+                <td>{{saving.created_date}}</td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // DIVS
+      const compulsoryDiv = document.getElementById(
+        "compulsory-saving-container"
+      );
+      const savingDiv = document.getElementById("other-saving-container");
+
+      // BUTTONS
+      const savingBtn = document.getElementById("saving-btn");
+      const compulsoryBtn = document.getElementById("compulsory-btn");
+
+      // EVENTS
+      savingBtn.onclick = () => {
+        savingDiv.style.display = "block";
+        compulsoryDiv.style.display = "none";
+      };
+
+      compulsoryBtn.onclick = () => {
+        savingDiv.style.display = "none";
+        compulsoryDiv.style.display = "block";
+      };
+    </script>
+  </body>
+</html>

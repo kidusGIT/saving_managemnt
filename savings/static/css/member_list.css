@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Mukta:wght@200;300;500&family=Nanum+Gothic&family=Nunito:wght@200&family=Source+Sans+Pro&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    font-family: 'inter';
+    font-family: 'Inter', sans-serif;
+    font-family: 'Mukta', sans-serif;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-family: 'Nunito', sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.app{
+    width: 100%;
+    min-height: 100vh;
+    background-color: #fcfbfb;
+}
+
+header{
+    background-color: #07162D;
+    height: 40px;
+    max-width: 100vw;
+    display: flex;
+    align-items: center;
+    color: white;
+    padding: 10px;
+    padding-left: 17px;
+   
+}
+
+header p{
+    flex: 1;
+}
+
+.links{
+    /* background-color: aqua; */
+    display: flex;
+    height: 100%;
+    min-width: 100px;
+    gap: 15px;
+}
+
+.link{
+    /* background-color: blueviolet; */
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    border-radius: 5px;
+    
+}
+
+.member-list-body{
+    /* background-color: aqua; */
+    min-height: 32rem;
+    padding: 15px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.search-container{
+    /* background-color: blue; */
+    display: flex;
+    height: 40px;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+.search-container h2{
+    flex: 1;
+}
+
+.search-bar{
+    background-color: #07162D;
+    height: 35px;
+    width: 350px;
+    display: flex;
+    align-items: center;
+    border-radius: 7px;
+    border: 1px solid #07162D;
+    /* padding: 5px; */
+    overflow: hidden;
+}
+
+.search-bar input{
+    height: 100%;
+    flex: 1;
+    outline: none;
+    border: none;
+    padding-left: 10px;
+    font-size: 17px;
+}
+
+.search-bar button{
+    background-color: #07162D;
+    height: 100%;
+    width: 70px;
+    outline: none;
+    border: none;
+    color: white;
+    font-size: 19px;
+    cursor: pointer;
+}
+
+.members-table{
+    display: flex;
+    flex-direction: column;
+    padding: 7px;
+    min-height: 50px;
+}
+
+.members-list-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.members-list-table td,
+.members-list-table th {
+    border-bottom: 1px solid #b9b9b9;
+    height: 35px;
+}
+
+.members-list-table th {
+    vertical-align: bottom;
+    padding-bottom: 5px;
+    background-color: #07162D;
+    color: white;
+}
+
+.members-list-table td{
+    vertical-align: bottom;
+    text-align: center;
+    font-size: 16px;
+    padding-bottom: 5px;
+}
+
+.member-detail {
+    text-decoration: none;
+    color: #0f51b3;
+}
+
+.member-detail:hover {
+    text-decoration-line: underline;
+}
+
+tr:nth-child(even){
+    background-color: rgb(255, 255, 255);
+}
+
+.fa-circle-check {
+    color: rgb(28, 196, 28);
+}
+
+.fa-circle-xmark{
+    color: rgb(211, 7, 7);
+}
+
+.create-member{
+    background-color: rgb(6, 109, 3);
+    width: 170px;
+    height: 37px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+
+.members-detail{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.members-detail h2{
+    flex: 1;
+}
+
+.saving-button{
+    /* background-color: aqua; */
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.saving-button button{
+    width: 170px;
+    height: 37px;
+    outline: none;
+    border: 1px solid #07162D;
+    border-radius: 5px;
+    color: #07162D;
+    background-color: transparent;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+    
+}
+
+.saving-button button:hover{
+    background-color: #07162D;
+    color: white;
+}
+
+.deposit {
+    color: rgb(28, 196, 28);
+    font-weight: bolder;
+}
+
+.withdraw {
+    color: rgb(185, 9, 9);
+    font-weight: bolder;
+}
+
+.link a{
+    color: white;
+    text-decoration: none;
+}
+
+.link a:hover {
+    text-decoration-line: underline;
+}

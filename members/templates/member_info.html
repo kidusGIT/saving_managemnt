@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> {{ full_name }} Information </title>
+    <link rel="stylesheet" href="{% static 'css/create.css' %}">
+    <link rel="stylesheet" href="{% static '/css/fontawesome/css/all.css' %}">
+</head>
+<body>
+
+    <div class="pop-up-container" id="pop-up-container">
+        <div class="pop-up-message-container">
+            <div class="pop-up-message">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <h3 id="delete-message">  Are You Sure Want To Delete This Member </h3>
+            </div>
+            <div class="pop-up-buttons">
+                <button id="cnacel-pop-up"> Cancel </button>
+                <button id="delete-pop-up"> Delete </button>
+            </div>
+        </div>
+    </div>
+    
+    <header> 
+        <p> Awach SACCO </p>
+        <div class="links">
+        
+            <div class="link">
+                {% if request.user %}
+                    <a href="{% url 'logout-employee' %}"> Logout </a>
+                {% else %}
+                    <a href="{% url 'login-employee' %}"> Login </a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <div class="member-form-body">
+            
+        <h1> {{ full_name }} Detail Information </h1>
+        <a href="{% url 'member-list' %}" class="back-to-list">Back to List</a>
+
+            <div class="switch-account-container">
+                <button id="member"> Member Information </button>
+                <button id="accounts"> Accounts </button>
+                <button id="transactions"> Transactions </button>
+            </div>
+
+            <div class="member-holder" id="update-form">
+                <form class="member-form" id="member-form-update">
+                    
+                    <div class="error-container" id="error-container">
+                        <p class="error-message" id="error-message"></p>
+                    </div>
+
+                    <div class="succuss-container" id="succuss-container">
+                        <p class="succuss-message" id="succuss-message"> Memeber Updated </p>
+                    </div>
+
+                    <div>
+                        <p> Member ID </p>
+                        <span class="input-container">
+                            <input type="number" name="member_id" id="member_id" value="{{ id }}" placeholder="Member ID" readonly> 
+                        </span>
+                    </div>
+                        
+                    <div class="member-name">
+                        <p> Member Name </p>
+                            
+                        <span class="input-container">
+                            <input type="text" name="first_name" id="" placeholder="First Name" value="{{ member.first_name }}" required >
+                            <input type="text" name="father_name" id="" placeholder="Father Name" value="{{ member.father_name }}" required>
+                            <input type="text" name="garnd_father_name" id="" placeholder="Grand Father Name" value="{{ member.garnd_father_name }}" required> 
+                        </span>
+                    </div>
+            
+                    <div class="member-address">
+                        <p> Member Address </p>  
+                        
+                        <span class="input-container">
+                            <input type="text" name="city" id="" placeholder="City" required value="{{ member.city }}"> 
+                            <input type="text" name="sub_city" id="" placeholder="Sub City" value="{{ member.sub_city }}"  required> 
+                            <input type="text" name="woreda" id="" placeholder="Woreda" value="{{ member.woreda }}" required>
+                            <input type="number" name="house_num" id="" placeholder="House Number" value="{{ member.house_num }}">  
+                        </span>
+                    </div>
+                    
+                    <div class="other-member-info">
+                        <p> Member Other Information </p> 
+
+                        <span class="input-container">
+                            <input type="number" name="phone_num" id="" placeholder="Phone Number" value="0{{ member.phone_num }}" required > 
+                            <input type="email" name="email" id="" placeholder="Email Address" value="{{ member.email }}" required> 
+                            <label for="">Date Of Birth </label>
+                            <input class="date-of-birth" type="date" name="age" id="" placeholder="age" value="{{ member.age|date:"Y-m-d" }}" required>  
+                        </span>
+                    </div>
+            
+                    <div class="members-info-buttons" id="members-info-buttons">
+                        <button type="submit" id="update-member-btn"> Save </button>
+                        <button id="delete-member-btn"> Delete </button>
+                    </div>
+                </form>
+            </div>    
+            
+            <div class="account-holder" id="account-holder">
+
+                <div class="saving-lists" id="saving-lists">
+                     
+                </div>
+                
+                <form action="" method="post" id="saving-update-form">
+                    <span class="input-container">
+                        <input type="text" name="account_id" id="saving-acct-id" readonly value="{{ saving_account }}" placeholder="Saving account number">
+                        <select name="saving_type" id="saving_type"></select>
+                        
+                        <input type="hidden" name="" id="active-account">
+                    </span> 
+
+                    <span class="input-container">
+                        <button id="update-saving-account"> Change Account </button>
+                    </span>   
+                </form>
+        
+            </div>
+
+            <div class="transactions-div" id="transactions-div">
+                <p id="withdraw-error" style="display: none;"> Insufficient Balance </p>
+
+                <span class="input-container">
+                    <input type="number" id="main-input" value="" placeholder="Enter Number">
+                    <input type="hidden" id="member-id" value="{{ id }}">
+                    <button id="split-number" class="split-number"> Split Numbers </button>
+                </span>
+
+                <p> For Compulsory Savings </p>
+                
+                <form action="" method="post" id="compolsory_saving_form">
+                    <p id="deposit-withdraw-indicator" > </p>
+                    <p id="compulsory_balance">  </p>
+                                        
+                    <span class="input-container">
+                        <input type="number" name="" value="{{ compulsoy_account }}" id="compusory_account_id" readonly>
+                        <input type="number" name="balance" value="" id="compulsory-balance" placeholder="Amount of many">
+                    </span>
+
+                    <span class="input-container">
+                        <button id="compulsory-account-deposit" class="deposit-btn" style="display: none;"> Deposit </button>
+                        <button id="compulsory-account-withdraw" class="withdraw-btn" style="display: none;"> Withdraw </button>
+                    </span>
+                </form>
+        
+                <p> For Other Type of Savings </p>
+                <form action="" method="post" id="other_saving_form">
+                    <p id="deposit-withdraw-indicator-other" > </p>
+                    <p id="saving_balance"> </p>
+
+                    <span class="input-container">
+                        <input type="number" name="" value="" id="saving_account_id" readonly>
+                        <input type="number" name="balance" value="" id="saving-balance" placeholder="Amount of many">
+                    </span>
+                    
+                    <span class="input-container">
+                        <button id="saving-account-deposit" class="deposit-btn" style="display: none;"> Deposit </button>
+                        <button id="saving-account-withdraw" class="withdraw-btn" style="display: none;"> Withdraw </button>
+                    </span>
+                </form>
+        
+                <a href="{% url 'member-transction' id %}" class="member-transction"> Check {{ member.first_name }} {{ member.father_name }}  Transactions </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/member_info.js' %}"></script>
+    <script src="{% static 'js/withdraw_deposit.js' %}"></script>
+    <script src="{% static 'js/update_member.js' %}"></script>
+   
+</body>
+</html>

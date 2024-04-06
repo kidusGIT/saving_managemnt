@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monthly Saving</title>
+    <link
+      rel="stylesheet"
+      href="{% static 'css/supervisor_saving_list.css' %}"
+    />
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <p>Awach SACCO</p>
+        <div class="links">
+          <div class="link">
+            {% if request.user %}
+            <a href="{% url 'logout-employee' %}"> Logout </a>
+            {% else %}
+            <a href="{% url 'login-employee' %}"> Login </a>
+            {% endif %}
+          </div>
+        </div>
+      </header>
+      <div class="body">
+        <div class="title">
+          <h2>Memebers Monthly Saving</h2>
+
+          <div class="time-stamps">
+            <p id="days">20 :</p>
+            <p id="hours">30 :</p>
+            <p id="mins">40 :</p>
+            <p id="secs">57</p>
+          </div>
+        </div>
+
+        <input
+          type="hidden"
+          name=""
+          id="end-time"
+          value="{{ end|date:'Y-m-d H:i:s' }}"
+        />
+
+        <form action="" method="post" id="list-form">
+          {% csrf_token %}
+          <input type="datetime-local" name="start_first" id="date" />
+          <input type="datetime-local" name="end_first" id="date" />
+          <button type="submit" id="list-btn">Get Dates</button>
+        </form>
+
+        <div id="members-list" class="members-list-container">
+          <div class="members-table">
+            <table id="tabel" class="members-list-table"></table>
+          </div>
+
+          <div class="saving-button">
+            <button id="change-accunt-count" style="display: none">
+              Apply
+            </button>
+            <button id="change-has-saved" style="display: none">
+              Change Saved
+            </button>
+          </div>
+        </div>
+
+        <form action="" method="post" id="set-form" style="display: none">
+          {% csrf_token %}
+          <input type="datetime-local" name="start" id="date" />
+          <input type="datetime-local" name="end" id="date" />
+          <button type="submit" id="set-btn">Set Dates</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="{% static 'js/monthly_saving.js' %}"></script>
+    <script src="{% static 'js/count_down.js' %}"></script>
+  </body>
+</html>

@@ -1,0 +1,235 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Member Add</title>
+
+    <!-- <link rel="stylesheet" href="create.css"> -->
+    <link rel="stylesheet" href="{% static 'css/create.css' %}" />
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <p>Awach SACCO</p>
+        <div class="links">
+          <div class="link">
+            {% if request.user %}
+            <a href="{% url 'logout-employee' %}"> Logout </a>
+            {% else %}
+            <a href="{% url 'login-employee' %}"> Login </a>
+            {% endif %}
+          </div>
+        </div>
+      </header>
+
+      <div class="member-form-body">
+        <h1>Create Memeber And Accounts</h1>
+        <a href="{% url 'member-list' %}" class="back-to-list">Back to List</a>
+
+        <div class="switch-account-container">
+          <button id="member">Create Member</button>
+          <button id="accounts" disabled>Create Accounts</button>
+        </div>
+
+        <div class="member-holder" id="member-holder">
+          <form class="member-form" id="create-member-form">
+            <div class="error-container" id="error-container">
+              <p class="error-message" id="error-message"></p>
+            </div>
+
+            <div class="succuss-container" id="succuss-container">
+              <p class="succuss-message" id="succuss-message">Member Created</p>
+            </div>
+
+            <div>
+              <p>Memeber ID</p>
+              <span class="input-container">
+                <input
+                  type="number"
+                  name="member_id"
+                  id="member_id"
+                  value="{{ id }}"
+                  placeholder="Member ID"
+                  readonly
+                />
+              </span>
+            </div>
+
+            <div class="member-name">
+              <p>Memeber Name</p>
+
+              <span class="input-container">
+                <input
+                  type="text"
+                  name="first_name"
+                  id="first_name"
+                  placeholder="First Name"
+                  value=""
+                  required
+                />
+                <input
+                  type="text"
+                  name="father_name"
+                  id=""
+                  placeholder="Father Name"
+                  value=""
+                  required
+                />
+                <input
+                  type="text"
+                  name="garnd_father_name"
+                  id=""
+                  placeholder="Garnd Father Name"
+                  value=""
+                  required
+                />
+              </span>
+            </div>
+
+            <div class="member-address">
+              <p>Memeber Address</p>
+
+              <span class="input-container">
+                <input
+                  type="text"
+                  name="city"
+                  id=""
+                  placeholder="City"
+                  required
+                  value=""
+                />
+                <input
+                  type="text"
+                  name="sub_city"
+                  id=""
+                  placeholder="Sub City"
+                  value=""
+                  required
+                />
+                <input
+                  type="text"
+                  name="woreda"
+                  id=""
+                  placeholder="Woreda"
+                  value=""
+                  required
+                />
+                <input
+                  type="number"
+                  name="house_num"
+                  id=""
+                  placeholder="House Number"
+                  value=""
+                />
+              </span>
+            </div>
+
+            <div class="other-member-info">
+              <p>Memeber Other Information</p>
+
+              <span class="input-container">
+                <input
+                  type="number"
+                  name="phone_num"
+                  id=""
+                  placeholder="Phone Number"
+                  value=""
+                  required
+                />
+                <input
+                  type="email"
+                  name="email"
+                  id=""
+                  placeholder="Email Address"
+                  value=""
+                  required
+                />
+                <label for="">Date Of Birth </label>
+                <input
+                  class="date-of-birth"
+                  type="date"
+                  name="age"
+                  id=""
+                  placeholder="age"
+                  value=""
+                  required
+                />
+              </span>
+            </div>
+
+            <button type="submit" id="create-member-btn">Save</button>
+          </form>
+        </div>
+
+        <div class="account-holder" id="account-holder">
+          <div class="create-container" id="create-container">
+            <p class="create-message" id="create-message">Account Created</p>
+          </div>
+
+          <p>Compulsory Account</p>
+
+          <form action="" method="post" id="compulsory-form">
+            <span class="input-container">
+              <input
+                type="text"
+                name="account_id"
+                id="compulsory-acctount-id"
+                value="{{ compulsory_account }}"
+                readonly
+              />
+              <input
+                type="number"
+                name="balance"
+                id="com-acct-balance"
+                placeholder="Compulsory account balance"
+              />
+            </span>
+
+            <button id="create-compulosry-account" style="display: none">
+              Save
+            </button>
+          </form>
+
+          <p>Saving Account</p>
+
+          <form action="" method="post" id="saving-form">
+            <span class="input-container">
+              <input
+                type="text"
+                name="account_id"
+                id="saving-acctount-id"
+                value="{{ saving_account }}"
+                readonly
+                placeholder="Saving Account Number"
+              />
+              <input
+                type="number"
+                name="balance"
+                id="saving-acct-balance"
+                placeholder="Saving Account Balance"
+              />
+
+              <select name="saving_type">
+                {% for saving in savings %}
+                <option value="{{ saving.id }}">
+                  {{ saving.account_name }}
+                </option>
+                {% endfor %}
+              </select>
+            </span>
+
+            <button id="create-saving-account" style="display: none">
+              Save
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="{% static 'js/create.js' %}"></script>
+    <script src="{% static 'js/validation.js' %}"></script>
+  </body>
+</html>

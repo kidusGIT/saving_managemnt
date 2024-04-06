@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Credit Class</title>
+
+    <link rel="stylesheet" href="{% static 'css/member_list.css' %}" />
+    <link rel="stylesheet" href="{% static '/css/fontawesome/css/all.css' %}" />
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <p>Awach SACCO</p>
+        <div class="links">
+          <div class="link">
+            {% if request.user %}
+            <a href="{% url 'logout-employee' %}"> Logout </a>
+            {% else %}
+            <a href="{% url 'login-employee' %}"> Login </a>
+            {% endif %}
+          </div>
+        </div>
+      </header>
+
+      <div class="member-list-body">
+        <div class="search-container">
+          <h2>Credit Class</h2>
+
+          <div class="search-bar">
+            <input type="text" placeholder="Search" id="search-input" />
+            <button type="submit" id="search-btn">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="members-table">
+          <table class="members-list-table" id="members-list-table"></table>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function getAge(date) {
+        const currentDate = new Date().getFullYear();
+
+        const dob = new Date(date).getFullYear();
+        const age = currentDate - dob;
+
+        return age;
+      }
+
+      function getDate(date) {
+        const createDate = new Date(date).toLocaleDateString();
+
+        return createDate;
+      }
+
+      function createTable(list) {
+        let concat = `
+                <tr> 
+                    <th> Memeber ID </th> 
+                    <th> Full Name </th> 
+                    <th> Email </th> 
+                    <th> Phone Number </th> 
+                    <th> Age </th> 
+                    <th> Created Date </th> 
+                    <th> Has Saved </th> 
+                </tr>
+            `;
+
+        const table = document.getElementById("members-list-table");
+
+        for (let i in list) {
+          let data = `
+                    <tr >
+                        <td> <a href="http://${
+                          window.location.host
+                        }/credit-class/credit-info/${
+            list[i].member_id
+          }" class="member-detail"> ${list[i].member_id} </a> </td>
+                        <td> ${list[i].first_name} ${list[i].father_name}  ${
+            list[i].garnd_father_name
+          }  </td>
+                        <td> ${list[i].email} </td>
+                        <td> ${list[i].phone_num} </td>
+                        <td> ${getAge(list[i].age)} </td>
+                        <td> ${getDate(list[i].created_date)} </td>
+                        <td> ${
+                          list[i].has_saved
+                            ? '<i class="fa-solid fa-circle-check"></i> '
+                            : '<i class="fa-solid fa-circle-xmark">'
+                        } </td>
+                    </tr>
+                `;
+          concat += data;
+        }
+
+        table.innerHTML = concat;
+      }
+
+      async function members_list() {
+        const response = await fetch(
+          `http://${window.location.host}/members-api/member-list/`
+        );
+
+        const list = await response.json();
+        // console.log(list)
+        createTable(list);
+      }
+
+      members_list();
+
+      const search_input = document.getElementById("search-input");
+      const search_btn = document.getElementById("search-btn");
+
+      search_input.onchange = async (e) => {
+        if (e.target.value === "") {
+          members_list();
+        } else {
+          const response = await fetch(
+            `http://${window.location.host}/members-api/search_member/?search=${e.target.value}`
+          );
+
+          const data = await response.json();
+          createTable(data);
+        }
+      };
+
+      search_btn.onclick = async (e) => {
+        const searchData = search_input.value;
+        const response = await fetch(
+          `http://${window.location.host}/members-api/search_member/?search=${searchData}`
+        );
+
+        const data = await response.json();
+        createTable(data);
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ full_name }} Transactions</title>
+
+    <link rel="stylesheet" href="{% static 'css/member_list.css' %}" />
+    <link rel="stylesheet" href="{% static '/css/fontawesome/css/all.css' %}" />
+  </head>
+
+  <style>
+    #compulsory-div {
+      display: none;
+    }
+  </style>
+
+  <body>
+    <div class="app">
+      <header>
+        <p>Awach SACCO</p>
+        <div class="links">
+          <div class="link">
+            {% if request.user %}
+            <a href="{% url 'logout-employee' %}"> Logout </a>
+            {% else %}
+            <a href="{% url 'login-employee' %}"> Login </a>
+            {% endif %}
+          </div>
+        </div>
+      </header>
+
+      <div class="member-list-body">
+        <a href="{% url 'memeber-info' id %}" class="create-member">
+          Back To Member
+        </a>
+
+        <div class="members-detail">
+          <h2>{{ full_name }} Transactions</h2>
+
+          <h3>Total Balance: {{ balance }}</h3>
+        </div>
+
+        <div class="saving-button">
+          <button id="other-saving">Other Type Of Saving</button>
+          <button id="compulsory-saving">Compulsory Saving</button>
+        </div>
+
+        <div class="members-table" id="other-div">
+          <a
+            href="{% url 'member-transction-report' id 0 %}"
+            class="member-detail"
+          >
+            Report For Other Saving
+          </a>
+          <table class="members-list-table">
+            <tr>
+              <th>Account ID</th>
+              <th>Account Type</th>
+              <th>Account Active</th>
+              <th>Account Suspension</th>
+              <th>Deposit</th>
+              <th>Withdraw</th>
+              <th>Balance</th>
+              <th>Created Date</th>
+            </tr>
+            {% for saving in saving_transaction %}
+            <tr>
+              <td class="member-detail">{{ saving.account.account_id }}</td>
+              <td>{{ saving.account.saving_type }}</td>
+              {% if saving.account.is_active %}
+              <td><i class="fa-solid fa-circle-check"></i></td>
+              {% else %}
+              <td><i class="fa-solid fa-circle-xmark"></i></td>
+              {% endif %} {% if saving.account.is_suspended %}
+              <td><i class="fa-solid fa-circle-check"></i></td>
+              {% else %}
+              <td><i class="fa-solid fa-circle-xmark"></i></td>
+              {% endif %}
+
+              <td class="deposit">+{{saving.deposit}}</td>
+              <td class="withdraw">-{{saving.withdraw}}</td>
+              <td>{{saving.balance}}</td>
+              <td>{{saving.created_date}}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+
+        <div class="members-table" id="compulsory-div">
+          <a
+            href="{% url 'member-transction-report' id 1 %}"
+            class="member-detail"
+          >
+            Report For Compulsory Saving
+          </a>
+          <table class="members-list-table">
+            <tr>
+              <th>Account ID</th>
+              <th>Account Suspension</th>
+              <th>Deposit</th>
+              <th>Withdraw</th>
+              <th>Balance</th>
+              <th>Created Date</th>
+            </tr>
+            {% for saving in compulsory_transaction %}
+            <tr>
+              <td class="member-detail">{{ saving.account.account_id}}</td>
+
+              {% if saving.account.is_suspended %}
+              <td><i class="fa-solid fa-circle-check"></i></td>
+              {% else %}
+              <td><i class="fa-solid fa-circle-xmark"></i></td>
+              {% endif %}
+              <td class="deposit">+ {{saving.deposit}}</td>
+              <td class="withdraw">- {{saving.withdraw}}</td>
+              <td>{{saving.balance}}</td>
+              <td>{{saving.created_date}}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const compulsory = document.getElementById("compulsory-saving");
+      const other = document.getElementById("other-saving");
+
+      const compulsory_div = document.getElementById("compulsory-div");
+      const other_div = document.getElementById("other-div");
+
+      compulsory.onclick = () => {
+        compulsory_div.style.display = "block";
+        other_div.style.display = "none";
+      };
+
+      other.onclick = () => {
+        compulsory_div.style.display = "none";
+        other_div.style.display = "block";
+      };
+    </script>
+  </body>
+</html>

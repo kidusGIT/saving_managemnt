@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Members do not saved</title>
+    <link rel="stylesheet" href="{% static '/css/time_stamp.css' %}" />
+    <link
+      rel="stylesheet"
+      href="{% static '/css/supervisor_saving_list.css' %}"
+    />
+  </head>
+  <body>
+    <div class="app-body">
+      <header>
+        <p>Awach SACCO</p>
+        <div class="links">
+          <div class="link">
+            {% if request.user %}
+            <a href="{% url 'logout-employee' %}"> Logout </a>
+            {% else %}
+            <a href="{% url 'login-employee' %}"> Login </a>
+            {% endif %}
+          </div>
+        </div>
+      </header>
+
+      <div class="main-container">
+        <h2>Members That Do Not Save</h2>
+
+        <div class="saving-button">
+          <button id="one-monnth-btn">For One Month</button>
+          <button id="two-monnth-btn">For Two Months</button>
+          <button id="three-monnth-btn">For three Months Or More</button>
+        </div>
+
+        <div class="members-table">
+          <table class="members-list-table" id="tabel"></table>
+          <div class="noting-found-container" id="noting-found">
+            <div>No members found</div>
+          </div>
+        </div>
+
+        <div>
+          <button id="send-email-btn" class="warning">Send Email</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const oneMonthBtn = document.getElementById("one-monnth-btn");
+      const twoMonthBtn = document.getElementById("two-monnth-btn");
+      const threeMonthBtn = document.getElementById("three-monnth-btn");
+
+      function displayEmpty() {
+        const empty = document.getElementById("noting-found");
+        empty.style.display = "flex";
+      }
+
+      const mainTable = async () => {
+        const response = await fetch(
+          `http://${
+            window.location.host
+          }/supervisors/members-that-do-not-save/${1}`
+        );
+        const data = await response.json();
+
+        setTable(data, 0);
+        if (data.length == 0) {
+          displayEmpty();
+        }
+      };
+
+      oneMonthBtn.onclick = () => {
+        send_email.style.display = "none";
+        mainTable();
+      };
+
+      twoMonthBtn.onclick = async () => {
+        const response = await fetch(
+          `http://${
+            window.location.host
+          }/supervisors/members-that-do-not-save/${2}`
+        );
+        const data = await response.json();
+        send_email.style.display = "none";
+
+        setTable(data, 0);
+        if (data.length == 0) {
+          displayEmpty();
+        }
+      };
+
+      threeMonthBtn.onclick = async () => {
+        const response = await fetch(
+          `http://${
+            window.location.host
+          }/supervisors/members-that-do-not-save/${3}`
+        );
+        const data = await response.json();
+
+        setTable(data, 1);
+        if (data.length == 0) {
+          displayEmpty();
+        }
+      };
+
+      const setTable = (data, check) => {
+        const header = `
+                <tr>
+                    <th> Member's ID </th>
+                    <th> Member's name </th>
+                    <th> father name </th>
+                    <th> Grand father name </th>
+                    <th> Email </th>
+                    <th> Missed Saving </th>
+                </tr>
+            `;
+
+        let lists = ``;
+        for (let d in data) {
+          let list = `
+                    <tr>
+                        <td> ${data[d].member_id} </td>
+                        <td> ${data[d].first_name} </td>
+                        <td> ${data[d].father_name} </td>
+                        <td> ${data[d].garnd_father_name} </td>
+                        <td> ${data[d].email} </td>
+                        <td class="withdraw" > ${
+                          data[d].save_count * 500
+                        } ETB </td>
+                    </tr>
+                `;
+          lists += list;
+
+          if (check == 1) {
+            send_email.style.display = "block";
+          } else {
+            send_email.style.display = "none";
+          }
+        }
+
+        const membersList = document.getElementById("tabel");
+
+        const concat = header + lists;
+        membersList.innerHTML = concat;
+
+        const empty = document.getElementById("noting-found");
+        empty.style.display = "none";
+      };
+
+      mainTable();
+
+      const send_email = document.getElementById("send-email-btn");
+      send_email.onclick = async () => {
+        const response = await fetch(
+          `http://${window.location.host}/supervisors/send-email`
+        );
+        const data = await response.json();
+
+        console.log(data);
+      };
+    </script>
+  </body>
+</html>

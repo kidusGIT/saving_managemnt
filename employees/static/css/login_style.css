@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Mukta:wght@200;300;500&family=Nanum+Gothic&family=Nunito:wght@200&family=Source+Sans+Pro&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    font-family: inter;
+    font-family: 'Inter', sans-serif;
+    font-family: 'Mukta', sans-serif;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-family: 'Nunito', sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.app{
+    width: 100%;
+    height: 100vh;
+    background-color: #EEE9E9;
+}
+
+header{
+    background-color: #07162D;
+    height: 40px;
+    max-width: 100vw;
+    display: flex;
+    align-items: center;
+    color: white;
+    padding: 10px;
+    padding-left: 17px;
+   
+}
+
+header p{
+    flex: 1;
+}
+
+.links{
+    /* background-color: aqua; */
+    display: flex;
+    height: 100%;
+    min-width: 100px;
+    gap: 15px;
+}
+
+.link{
+    /* background-color: blueviolet; */
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    border-radius: 5px;
+    
+}
+
+.selected{
+    border: 2px solid #F2880B;
+}
+
+.body{
+    /* background-color: aqua; */
+    min-height: 32rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.form{
+    height: 370px;
+    width: 250px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 3px 3px 10px 2px; 
+}
+
+.inputs{
+    /* background-color: aqua; */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.form p{
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.form button{
+    background-color: #227E12;
+    width: 100%;
+    height: 37px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.inputs input{
+    height: 35px;
+    padding-left: 10px;
+    outline: none;
+    border: 1px solid #575050;
+    border-radius: 5px;
+}
+
+.crad-holder{
+    /* background-color: aqua; */
+    display: flex;
+    padding: 18px;
+    gap: 30px;
+    height: 240px;
+    
+}
+
+.card{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 160px;
+    padding: 17px;
+    font-size: larger;
+    font-weight: bold;
+    border-radius: 7px;
+    border: 1px solid #F2880B;
+    /* box-shadow: 3px 3px 10px 2px; */
+}
+
+.card svg{
+    flex: 1;
+    width: 110px;
+
+}
+
+.title {
+    height: 100px;
+    padding: 10px;
+
+}
+
+.title p{
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.error-container{
+    background-color: hwb(0 27% 9%);
+    width: 100%;
+    padding: 7px;
+    border-radius: 5px;
+}
+
+.error-container p{
+    font-size: 16px;
+    color: #410617;
+    font-weight: bold;
+}

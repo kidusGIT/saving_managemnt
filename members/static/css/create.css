@@ -1,0 +1,502 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Mukta:wght@200;300;500&family=Nanum+Gothic&family=Nunito:wght@200&family=Source+Sans+Pro&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: inter;
+  font-family: "Inter", sans-serif;
+  font-family: "Mukta", sans-serif;
+  font-family: "Nanum Gothic", sans-serif;
+  font-family: "Nunito", sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+body {
+  position: relative;
+}
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #fcfbfb;
+}
+
+header {
+  background-color: #07162d;
+  height: 40px;
+  max-width: 100vw;
+  display: flex;
+  align-items: center;
+  color: white;
+  padding: 10px;
+  padding-left: 17px;
+}
+
+header p {
+  flex: 1;
+}
+
+.links {
+  /* background-color: aqua; */
+  display: flex;
+  height: 100%;
+  min-width: 100px;
+  gap: 15px;
+}
+
+.link {
+  /* background-color: blueviolet; */
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  border-radius: 5px;
+}
+
+.selected {
+  border: 2px solid #f2880b;
+}
+
+.member-form-body {
+  /* background-color: aqua; */
+  min-height: 32rem;
+  padding: 15px;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+.member-form {
+  background-color: white;
+  display: flex;
+  /* display: none; */
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 17px;
+  padding: 10px;
+  border-radius: 7px;
+  width: 80%;
+  border: 1px solid #eee9e9;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.input-container input {
+  width: 200px;
+  height: 35px;
+  padding-left: 10px;
+  outline: none;
+  font-size: 15px;
+  border: 1px solid #eee9e9;
+  border-radius: 7px;
+}
+
+.date-of-birth {
+  padding-right: 10px;
+}
+
+.member-form div {
+  /* background-color: aqua; */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.member-form div p {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.input-container {
+  /* background-color: #EEE9E9; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.member-form button {
+  background-color: green;
+  width: 150px;
+  height: 40px;
+  outline: none;
+  border: none;
+  border-radius: 7px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.switch-account-container {
+  width: 80%;
+  height: 40px;
+  padding-left: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.switch-account-container button {
+  min-width: 190px;
+  background-color: #fcfbfb;
+  outline: none;
+  font-weight: bold;
+  font-size: medium;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #07162d;
+  cursor: pointer;
+  transition: background-color 0.5s ease;
+}
+
+.switch-account-container button:hover {
+  background-color: #07162d;
+  color: white;
+}
+
+.back-to-list {
+  background-color: #07162d;
+  width: 150px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border-radius: 7px;
+  text-decoration: none;
+}
+
+.account-holder {
+  display: flex;
+  display: none;
+  background-color: white;
+  flex-direction: column;
+  width: 80%;
+  padding: 10px;
+  gap: 17px;
+  border-radius: 7px;
+  border: 1px solid #eee9e9;
+}
+
+.account-holder p {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.account-holder form {
+  /* background-color: #F2880B; */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.account-holder button {
+  background-color: green;
+  width: 220px;
+  height: 40px;
+  outline: none;
+  border: none;
+  border-radius: 7px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.input-container select {
+  /* width: 150px; */
+  width: 200px;
+  height: 35px;
+  padding-left: 10px;
+  outline: none;
+  font-size: 15px;
+  border: 1px solid #eee9e9;
+  border-radius: 7px;
+}
+
+.transactions-div,
+.transactions-div form {
+  display: flex;
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+  width: 80%;
+  padding: 10px;
+  gap: 17px;
+  border-radius: 7px;
+  border: 1px solid #eee9e9;
+}
+
+.transactions-div {
+  display: none;
+}
+
+.transactions-div p {
+  font-weight: bold;
+}
+
+.input-container button {
+  /* background-color: #F2880B; */
+  width: 150px;
+  height: 35px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#members-info-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-radius: 5px;
+  border: 1px solid #eee9e9;
+  padding: 7px;
+  width: 90%;
+}
+
+#delete-member-btn {
+  background-color: rgb(122, 12, 12);
+  width: 70px;
+}
+
+.deposit-btn {
+  background-color: green;
+}
+
+.withdraw-btn {
+  background-color: rgb(122, 12, 12);
+}
+
+.member-transction {
+  color: #0f51b3;
+  text-decoration: none;
+}
+
+.member-transction:hover {
+  text-decoration-line: underline;
+}
+
+.saving-lists {
+  /* background-color: aqua; */
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.error-container {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(241, 56, 80);
+  height: 50px;
+  width: 100%;
+  border-radius: 5px;
+}
+
+#error-container {
+  display: none;
+}
+
+.error-message {
+  color: rgb(61, 11, 11);
+  font-size: medium;
+  font-weight: bold;
+}
+
+.active-status,
+.unactive-status {
+  display: flex;
+  flex-direction: row;
+  padding: 7px;
+  border-radius: 5px;
+}
+
+.active-status span {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.active-status {
+  /* background-color: #0f51b3; */
+  border: 2px solid rgb(7, 99, 7);
+}
+
+.unactive-status {
+  /* background-color: #F2880B; */
+  border: 2px solid rgb(180, 9, 9);
+}
+
+.unactive-status span {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.unactive-status-span {
+  flex: 1;
+  /* background-color: red; */
+}
+
+.unactive-status-span-2 button {
+  height: 30px;
+  border: 1px solid #0f51b3;
+  width: 150px;
+  outline: none;
+  background-color: transparent;
+  border-radius: 5px;
+  color: #07162d;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.succuss-container {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(27, 167, 15);
+  height: 50px;
+  width: 100%;
+  border-radius: 5px;
+}
+
+#succuss-container {
+  display: none;
+}
+
+.create-container {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(27, 167, 15);
+  height: 50px;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.succuss-container p,
+.create-container p {
+  color: rgb(10, 58, 6);
+}
+
+/* POP UP  */
+.pop-up-container {
+  background-color: rgba(19, 18, 18, 0.8);
+  position: fixed;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  bottom: -100%;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: bottom 0.3s ease;
+}
+
+.pop-up-container.active {
+  transform: scaleY(1.1);
+  bottom: 0;
+  transition: bottom 0.3s ease;
+}
+
+.pop-up-message-container {
+  background-color: #fcfbfb;
+  border-radius: 5px;
+  width: 500px;
+  height: 200px;
+  padding: 7px;
+  display: flex;
+  flex-direction: column;
+}
+
+.pop-up-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 7px;
+}
+
+.pop-up-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.fa-triangle-exclamation {
+  color: red;
+}
+
+.pop-up-buttons button {
+  height: 37px;
+  width: 80px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 17px;
+}
+
+.pop-up-message {
+  flex: 1;
+}
+
+#cnacel-pop-up {
+  background-color: #eee9e9;
+}
+
+#delete-pop-up {
+  background-color: rgb(180, 9, 9);
+  color: white;
+}
+
+.link a {
+  color: white;
+  text-decoration: none;
+}
+
+.link a:hover {
+  text-decoration-line: underline;
+}
+
+.split-number {
+  background-color: #0f51b3;
+}
+
+#create-compulosry-account,
+#create-saving-account {
+  width: 80px;
+  height: 35px;
+  background-color: #0f51b3;
+  border-radius: 3px;
+}
+
+#withdraw-error {
+  color: rgb(204, 12, 12);
+}
+
+.susspension-form {
+  background-color: #07162d;
+}
+
+.withdraw-indicator {
+  color: #9e021c;
+}
+
+.deposit-indicator {
+  color: #448a03;
+}

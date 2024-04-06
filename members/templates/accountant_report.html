@@ -1,0 +1,339 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accountants Report Page</title>
+
+    <link rel="stylesheet" href="{% static 'css/member_list.css' %}" />
+    <link rel="stylesheet" href="{% static '/css/fontawesome/css/all.css' %}" />
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <p>Awach SACCO</p>
+        <div class="links">
+          <div class="link">
+            {% if request.user %}
+            <a href="{% url 'logout-employee' %}"> Logout </a>
+            {% else %}
+            <a href="{% url 'login-employee' %}"> Login </a>
+            {% endif %}
+          </div>
+        </div>
+      </header>
+
+      <div class="member-list-body">
+        <div class="search-container">
+          <h2>Reports For Accountants</h2>
+
+          <div class="report-btn-container">
+            <button id="compulsory-display-btn">Compulsory</button>
+            <button id="saving-display-btn">Other Saving</button>
+          </div>
+        </div>
+
+        <form action="" method="post" id="compulsory-saving-form">
+          {% csrf_token %}
+          <!-- start time -->
+          <input type="datetime-local" name="start" id="date" value="{{
+          now|date:"Y-m-d" }}" />
+          <!-- end time -->
+          <input type="datetime-local" name="end" id="date" value="{{
+          now|date:"Y-m-d" }}" />
+          <button type="submit" id="compulsory-list-btn">Get Reports</button>
+
+          <a
+            href="{% url 'export-to-compulsory-saving' %}"
+            class="report-btn"
+            id="compulsory-report-generator"
+          >
+            <i class="fa-solid fa-chart-line"></i>
+            Export To Xls
+          </a>
+        </form>
+
+        <form
+          action=""
+          method="post"
+          id="other-saving-form"
+          style="display: none"
+        >
+          {% csrf_token %} <input type="datetime-local" name="start" id="date"
+          value="{{ date|date:"Y-m-d" }}" /> <input type="datetime-local"
+          name="end" id="date" value="{{ date|date:"Y-m-d" }}" />
+          <button type="submit" id="saving-list-btn">Get Reports</button>
+
+          <a
+            href="{% url 'export-to-other-saving' %}"
+            class="report-btn"
+            id="other-report-generator"
+          >
+            <i class="fa-solid fa-chart-line"></i>
+            Export To Xls
+          </a>
+        </form>
+
+        <div class="default-report-container" id="compulsory-report-indicator">
+          <p id="">Select date to get report for compulsory saving</p>
+        </div>
+
+        <div
+          class="default-report-container"
+          id="other-report-indicator"
+          style="display: none"
+        >
+          <p>Select date to get report for other type of saving</p>
+        </div>
+
+        <div class="members-table">
+          <table class="members-list-table" id="members-list-table"></table>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // MAIN URL
+      const mainUrl = `http://${window.location.host}/`;
+
+      // a STYLE
+      const compulsoryReport = document.getElementById(
+        "compulsory-report-generator"
+      );
+      const otherReport = document.getElementById("other-report-generator");
+
+      // FORMS
+      const compulsory_form = document.getElementById("compulsory-saving-form");
+      const other_form = document.getElementById("other-saving-form");
+
+      // BUTTONS
+      const compulsory_display = document.getElementById(
+        "compulsory-display-btn"
+      );
+      const saving_display = document.getElementById("saving-display-btn");
+
+      // FORM BUTTONS
+      const compulsory_list_btn = document.getElementById(
+        "compulsory-list-btn"
+      );
+      const compulsory_report_btn = document.getElementById(
+        "compulsory-to-excel"
+      );
+
+      // CONTAINER ID
+      const otherDivContainer = document.getElementById(
+        "other-report-indicator"
+      );
+      const compulsoryDivContainer = document.getElementById(
+        "compulsory-report-indicator"
+      );
+
+      const saving_list_btn = document.getElementById("saving-list-btn");
+      const saving_report_btn = document.getElementById("saving-to-excel");
+
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+          const cookies = document.cookie.split(";");
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+              cookieValue = decodeURIComponent(
+                cookie.substring(name.length + 1)
+              );
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+
+      // POST REQUEST
+      async function postRequest(url, formData) {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": getCookie("csrftoken"),
+          },
+          body: new FormData(formData),
+        });
+
+        const data = await response.json();
+        return data;
+      }
+
+      // DISPLAY FORMS BUTTONS
+      compulsory_display.onclick = () => {
+        compulsory_form.style.display = "flex";
+        compulsoryDivContainer.style.display = "flex";
+
+        other_form.style.display = "none";
+        otherDivContainer.style.display = "none";
+      };
+
+      saving_display.onclick = () => {
+        other_form.style.display = "flex";
+        otherDivContainer.style.display = "flex";
+
+        compulsory_form.style.display = "none";
+        compulsoryDivContainer.style.display = "none";
+      };
+
+      function getDate(date) {
+        const createDate = new Date(date).toLocaleDateString();
+
+        return createDate;
+      }
+
+      const otherSavingTable = (data) => {
+        const membersList = document.getElementById("members-list-table");
+
+        const header = `
+                <tr>
+                    <th> Member's ID </th>
+                    <th> Member's name </th>
+                    <th> father name </th>
+                    <th> Grand father name </th>
+                    <th> Email </th>
+                    <th> Account NO </th>
+                    <th> Saving Type </th>
+                    <th> Balance </th>
+                    <th> Withdraw </th>
+                    <th> Deposit </th>
+                    <th> Transaction Date </th>
+                </tr>
+            `;
+        let lists = ``;
+        for (let d in data) {
+          let list = `
+                    <tr>
+                        <td> ${data[d].account.member.member_id} </td>
+                        <td> ${data[d].account.member.first_name} </td>
+                        <td> ${data[d].account.member.father_name} </td>
+                        <td> ${data[d].account.member.garnd_father_name} </td>
+                        <td> ${data[d].account.member.email} </td>
+                        <td> ${data[d].account.account_id} </td>
+                        <td> ${data[d].account.saving_type.account_name} </td>
+                        <td> ${data[d].balance} </td>
+                        <td class="withdraw"> -${data[d].withdraw} </td>
+                        <td class="deposit"> +${data[d].deposit} </td>
+                        <td> ${getDate(data[d].created_date)} </td>
+                    </tr>
+                `;
+
+          lists += list;
+        }
+
+        const concat = header + lists;
+        membersList.innerHTML = concat;
+      };
+
+      // COMPULSORY TABLE POPULATER
+      const compulsoryTable = (data) => {
+        const membersList = document.getElementById("members-list-table");
+
+        const header = `
+                <tr>
+                    <th> Member's ID </th>
+                    <th> Member's name </th>
+                    <th> father name </th>
+                    <th> Grand father name </th>
+                    <th> Email </th>
+                    <th> Account NO </th>
+                    <th> Balance </th>
+                    <th> Withdraw </th>
+                    <th> Deposit </th>
+                    <th> Transaction Date </th>
+                </tr>
+            `;
+        let lists = ``;
+        for (let d in data) {
+          let list = `
+                    <tr>
+                        <td> ${data[d].account.member.member_id} </td>
+                        <td> ${data[d].account.member.first_name} </td>
+                        <td> ${data[d].account.member.father_name} </td>
+                        <td> ${data[d].account.member.garnd_father_name} </td>
+                        <td> ${data[d].account.member.email} </td>
+                        <td> ${data[d].account.account_id} </td>
+                        <td> ${data[d].balance} </td>
+                        <td class="withdraw"> -${data[d].withdraw} </td>
+                        <td class="deposit"> +${data[d].deposit} </td>
+                        <td> ${getDate(data[d].created_date)} </td>
+                    </tr>
+                `;
+
+          lists += list;
+        }
+
+        const concat = header + lists;
+        membersList.innerHTML = concat;
+      };
+
+      // BUTTON LISTS
+      compulsory_list_btn.onclick = async (e) => {
+        e.preventDefault();
+
+        console.log("list compulsory btn");
+        const url = `${mainUrl}members-api/compulsory-saving-report/0`;
+        const data = await postRequest(url, compulsory_form);
+
+        console.log(data);
+        const membersList = document.getElementById("members-list-table");
+
+        if (data.length == 0) {
+          compulsoryReport.style.display = "none";
+          compulsoryDivContainer.style.display = "flex";
+
+          membersList.style.display = "none";
+        } else {
+          compulsoryTable(data);
+          membersList.style.display = "flex";
+
+          compulsoryReport.style.display = "flex";
+          compulsoryDivContainer.style.display = "none";
+        }
+      };
+
+      saving_list_btn.onclick = async (e) => {
+        e.preventDefault();
+
+        console.log("list saving btn");
+        const url = `${mainUrl}members-api/other-saving-report/0`;
+        const data = await postRequest(url, other_form);
+        const membersList = document.getElementById("members-list-table");
+
+        if (data.length != 0) {
+          otherSavingTable(data);
+          otherReport.style.display = "flex";
+          otherDivContainer.style.display = "none";
+
+          membersList.style.display = "flex";
+        } else {
+          otherDivContainer.style.display = "flex";
+          otherReport.style.display = "none";
+
+          membersList.style.display = "none";
+        }
+      };
+
+      // REPORT EXPORT BUTTON
+      compulsory_report_btn.onclick = async (e) => {
+        e.preventDefault();
+
+        const url = `${mainUrl}members-api/compulsory-saving-report/0`;
+        const response = await postRequest(url, other_form);
+      };
+
+      saving_report_btn.onclick = async (e) => {
+        e.preventDefault();
+
+        const url = `${mainUrl}members-api/other-saving-report/1`;
+        const response = await postRequest(url, other_form);
+      };
+    </script>
+  </body>
+</html>

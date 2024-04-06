@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Time Stamp</title>
+    <link rel="stylesheet" href="{% static '/css/time_stamp.css' %}" />
+  </head>
+  <body>
+    <div class="app-body">
+      <header>
+        <p>Awach SACCO</p>
+        <div class="links">
+          <div class="link">
+            {% if request.user %}
+            <a href="{% url 'logout-employee' %}"> Logout </a>
+            {% else %}
+            <a href="{% url 'login-employee' %}"> Login </a>
+            {% endif %}
+          </div>
+        </div>
+      </header>
+
+      <div class="container">
+        {% if check == 1 %}
+        <div class="time-container">
+          <h3>Wait For The Time To Be Completed</h3>
+          <input
+            type="hidden"
+            name=""
+            id="end-time"
+            value="{{ start|date:'Y-m-d H:i:s' }}"
+          />
+          <!-- <input type="date" name="age" id="" placeholder="age" value="{{ member.age|date:"Y-m-d" }}" required> <br> <br> -->
+
+          <div class="time-stamps">
+            <p id="days"></p>
+            <p id="hours"></p>
+            <p id="mins"></p>
+            <p id="secs"></p>
+          </div>
+        </div>
+        {% else %}
+        <div class="inner-container">
+          <h3>Please Contact The Adminstrator To Set The Correct Time</h3>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <script src="{% static 'js/count_down.js' %}"></script>
+  </body>
+</html>
